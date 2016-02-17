@@ -1,4 +1,4 @@
-# Include the general initialization 
+# Include the general initialization
 require File.expand_path("../init", __FILE__)
 
 # Requiring the necessary gem for testing
@@ -13,5 +13,5 @@ APP_VIEWS = File.join(APP_ROOT, "app", "views")
 
 # Defining app as Sinatra application
 def app
-	Sinatra::Application
+  Sinatra::Application
 end

@@ -1,0 +1,10 @@
+<h1>Edit Post</h1>
+
+<form method=post action="/users/posts/<%=@post.id%>" class="form-inline" role="form">
+  <div class="form-group">
+      <input name="update_description" class="form-control" type="text" value="<%=@post.description%>"></input>
+  </div>
+  <div class="form-group">
+      <input type=submit class="btn btn-default" value="Submit"></input>
+  </div>
+</form>

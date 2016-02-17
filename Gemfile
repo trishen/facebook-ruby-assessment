@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # Ruby Version
 # ruby "2.2.1"
 
+#bcrypt
+gem 'bcrypt'
+
 # Adding Sinatra Drivers
 gem 'sinatra'
 gem 'sinatra-contrib'

@@ -1,0 +1,89 @@
+<h1>News Feed</h1>
+
+<% if logged_in? %>
+
+  <form method=post action="/users/<%=current_user.id%>/posts" class="form-inline" role="form">
+    <div class="form-group">
+        <input name="post" class="form-control" type="text" placeholder="Whats on your mind ?"></input>
+    </div>
+    <div class="form-group">
+        <input type=submit class="btn btn-default" value="Post !"></input>
+    </div>
+  </form>
+
+<% end %>
+
+<% @posts.each do |post| %>
+
+  <% user = User.find(post.user_id) %>
+
+  <div class="detailBox">
+    <div class="titleBox">
+
+      <!-- DELETE -->
+      <% if logged_in? %>
+        <% if current_user.id == user.id %>
+          <form action="users/posts/<%=post.id%>" method=post>
+            <input name="_method" type="hidden" value="delete">
+            <button type="submit" class="close" aria-hidden="true">&times;</button>
+          </form>
+
+          <form action="users/posts/<%=post.id%>/edit" method=get>
+            <button type="submit" class="close" aria-hidden="true">&eopf;</button>
+          </form>
+        <% end %>
+      <% end %>
+      <!-- DELETE END -->
+
+      <label><%= user.username %> posted </label>
+    </div>
+    <div class="commentBox">
+        <p class="taskDescription"><%= post.description %></p>
+    </div>
+
+    <% this_comments = Comment.where("post_id = ?", post.id) %>
+
+    <div class="actionBox">
+        <ul class="commentList">
+            <% this_comments.each do |comment| %>
+              <li>
+                  <div class="commentText">
+                      <% this_user = User.find(comment.user_id) %>
+
+                      <!-- DELETE -->
+                      <% if logged_in? %>
+                        <% if current_user.id == this_user.id %>
+                          <form action="users/comments/<%=comment.id%>" method=post>
+                            <input name="_method" type="hidden" value="delete">
+                            <button type="submit" class="close" aria-hidden="true">&times;</button>
+                          </form>
+
+                          <form action="users/comments/<%=comment.id%>/edit" method=get>
+                            <button type="submit" class="close" aria-hidden="true">&eopf;</button>
+                          </form>
+                        <% end %>
+                      <% end %>
+                      <!-- DELETE END -->
+
+                      <p class=""> <%= comment.description %> </p>
+                      <span class="date sub-text"><%= this_user.username %> commented</span>
+                  </div>
+              </li>
+            <% end %>
+        </ul>
+
+        <% if logged_in? %>
+          <form method=post action="/users/<%=current_user.id%>/comments" class="form-inline" role="form">
+              <div class="form-group">
+                  <input type="hidden" name="post_id" value="<%=post.id%>"></input>
+                  <input name="comment" class="form-control" type="text" placeholder="Write a comment..."></input>
+              </div>
+              <div class="form-group">
+                  <input type=submit class="btn btn-default" value="Add"></input>
+              </div>
+          </form>
+        <% end %>
+    </div>
+  </div>
+
+<% end %>
